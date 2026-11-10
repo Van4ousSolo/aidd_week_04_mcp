@@ -1,0 +1,67 @@
+{
+  "id": "M8qW2x9LaP3kK7yV",
+  "name": "Мониторинг и аналитика просроченных задач TODO",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-e5f6-47a8-b9c0-112233445566",
+      "name": "Ручной запуск воркфлоу",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:5001/api/tasks?done=false",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "b2c3d4e5-f6a7-48b9-c0d1-223344556677",
+      "name": "Запрос активных задач из REST API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "alwaysOutputData": true,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const today = $now.setZone('Europe/Moscow').toFormat('yyyy-MM-dd');\nconst rawItems = $input.all().map(item => item.json);\nconst tasks = rawItems.filter(t => t && t.done === false);\n\nconst overdue = tasks.filter(t => t.due && t.due < today);\nconst priorityCounts = { high: 0, normal: 0, low: 0 };\nconst overdueByPriority = { high: 0, normal: 0, low: 0 };\n\ntasks.forEach(t => {\n  const p = t.priority || 'normal';\n  if (priorityCounts[p] !== undefined) priorityCounts[p]++;\n});\n\noverdue.forEach(t => {\n  const p = t.priority || 'normal';\n  if (overdueByPriority[p] !== undefined) overdueByPriority[p]++;\n});\n\nconst criticalTasks = overdue\n  .filter(t => t.priority === 'high')\n  .map(t => ({ id: t.id, title: t.title, due: t.due }));\n\nconst overdueRatio = tasks.length > 0 \n  ? Number(((overdue.length / tasks.length) * 100).toFixed(1))\n  : 0;\n\nconst summaryText = `[TODO Alert ${today}] Открытых задач: ${tasks.length}, Просрочено: ${overdue.length} (${overdueRatio}%). Критических (High): ${overdueByPriority.high}`;\n\nreturn [{\n  json: {\n    date: today,\n    total_pending: tasks.length,\n    total_overdue: overdue.length,\n    overdue_percentage: overdueRatio,\n    by_priority: priorityCounts,\n    overdue_by_priority: overdueByPriority,\n    critical_high_overdue: criticalTasks,\n    summary: summaryText\n  }\n}];"
+      },
+      "id": "c3d4e5f6-a7b8-49c0-d1e2-334455667788",
+      "name": "Анализ просрочки и приоритизация",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 0]
+    }
+  ],
+  "connections": {
+    "Ручной запуск воркфлоу": {
+      "main": [
+        [
+          {
+            "node": "Запрос активных задач из REST API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос активных задач из REST API": {
+      "main": [
+        [
+          {
+            "node": "Анализ просрочки и приоритизация",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {}
+}

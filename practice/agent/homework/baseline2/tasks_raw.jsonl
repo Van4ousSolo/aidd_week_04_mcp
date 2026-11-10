@@ -1,0 +1,100 @@
+{"id": 1, "title": "123", "priority": "normal", "due": null, "done": false}
+{"id": 2, "title": "123123", "priority": "high", "due": "2008-09-13", "done": false}
+{"id": 3, "title": "Забронировать молоко и хлеб", "priority": "normal", "due": "2026-11-14", "done": false}
+{"id": 4, "title": "Купить анкету", "priority": "normal", "due": "2026-11-02", "done": false}
+{"id": 5, "title": "Распечатать молоко и хлеб", "priority": "low", "due": null, "done": true}
+{"id": 6, "title": "Отправить договор", "priority": "normal", "due": "2026-11-24", "done": true}
+{"id": 7, "title": "Оплатить заявку на отпуск", "priority": "normal", "due": "2026-11-05", "done": true}
+{"id": 8, "title": "Распечатать молоко и хлеб", "priority": "normal", "due": "2026-11-21", "done": false}
+{"id": 9, "title": "Забронировать план на неделю", "priority": "high", "due": "2026-11-21", "done": true}
+{"id": 10, "title": "Купить билеты на поезд", "priority": "normal", "due": null, "done": false}
+{"id": 11, "title": "Прочитать встречу с командой", "priority": "normal", "due": null, "done": true}
+{"id": 12, "title": "Согласовать доклад для лекции", "priority": "low", "due": "2026-11-28", "done": false}
+{"id": 13, "title": "Распечатать заявку на отпуск", "priority": "normal", "due": "2026-11-03", "done": false}
+{"id": 14, "title": "Протестировать ревью кода", "priority": "low", "due": null, "done": false}
+{"id": 15, "title": "Закрыть молоко и хлеб", "priority": "high", "due": "2026-11-13", "done": false}
+{"id": 16, "title": "Забронировать доклад для лекции", "priority": "high", "due": "2026-12-04", "done": false}
+{"id": 17, "title": "Заказать план на неделю", "priority": "low", "due": "2026-11-16", "done": true}
+{"id": 18, "title": "Написать отчёт за квартал", "priority": "normal", "due": "2026-11-29", "done": false}
+{"id": 19, "title": "Подготовить анкету", "priority": "normal", "due": "2026-12-03", "done": false}
+{"id": 20, "title": "Купить визит к врачу", "priority": "low", "due": "2026-12-03", "done": false}
+{"id": 21, "title": "Подготовить план на неделю", "priority": "normal", "due": "2026-11-27", "done": false}
+{"id": 22, "title": "Забронировать доклад для лекции", "priority": "high", "due": "2026-11-29", "done": false}
+{"id": 23, "title": "Сдать домашнее задание по MCP", "priority": "high", "due": "2026-11-11", "done": true}
+{"id": 24, "title": "Прочитать материалы недели про Tool calling", "priority": "normal", "due": "2026-11-12", "done": false}
+{"id": 25, "title": "Проверить целостность todo_db.json", "priority": "low", "due": null, "done": false}
+{"id": 26, "title": "Запустить тесты: python -m unittest discover", "priority": "normal", "due": "2026-11-10", "done": false}
+{"id": 27, "title": "Обновить README с результатами практики", "priority": "low", "due": "2026-11-15", "done": false}
+{"id": 28, "title": "Отдых: прогулка в парке", "priority": "low", "due": null, "done": false}
+{"id": 29, "title": "Сдать домашнее задание по MCP", "priority": "high", "due": "2026-11-11", "done": true}
+{"id": 30, "title": "Прочитать материалы недели про Tool calling", "priority": "normal", "due": "2026-11-12", "done": false}
+{"id": 31, "title": "Проверить целостность todo_db.json", "priority": "low", "due": null, "done": false}
+{"id": 32, "title": "Запустить тесты: python -m unittest discover", "priority": "normal", "due": "2026-11-10", "done": false}
+{"id": 33, "title": "Обновить README с результатами практики", "priority": "low", "due": "2026-11-15", "done": false}
+{"id": 34, "title": "Отдых: прогулка в парке", "priority": "low", "due": null, "done": false}
+{"id": 35, "title": "Проверить билеты на поезд", "priority": "low", "due": null, "done": false}
+{"id": 36, "title": "Согласовать счёт за интернет", "priority": "normal", "due": "2026-11-24", "done": true}
+{"id": 37, "title": "Доработать отчёт за квартал", "priority": "high", "due": "2026-11-27", "done": false}
+{"id": 38, "title": "Протестировать счёт за интернет", "priority": "normal", "due": "2026-11-14", "done": true}
+{"id": 39, "title": "Распечатать отчёт за квартал", "priority": "normal", "due": null, "done": false}
+{"id": 40, "title": "Закрыть документацию", "priority": "normal", "due": "2026-11-01", "done": false}
+{"id": 41, "title": "Оплатить документацию", "priority": "normal", "due": "2026-11-22", "done": false}
+{"id": 42, "title": "Распечатать счёт за интернет", "priority": "low", "due": "2026-11-26", "done": false}
+{"id": 43, "title": "Обновить план на неделю", "priority": "high", "due": "2026-11-18", "done": false}
+{"id": 44, "title": "Закрыть резервную копию", "priority": "normal", "due": "2026-11-27", "done": true}
+{"id": 45, "title": "Закрыть заявку на отпуск", "priority": "high", "due": "2026-12-01", "done": false}
+{"id": 46, "title": "Заказать визит к врачу", "priority": "normal", "due": "2026-11-25", "done": false}
+{"id": 47, "title": "Проверить список покупок", "priority": "high", "due": "2026-11-23", "done": false}
+{"id": 48, "title": "Починить подарок коллеге", "priority": "normal", "due": "2026-12-03", "done": false}
+{"id": 49, "title": "Доработать посылку", "priority": "high", "due": "2026-11-19", "done": false}
+{"id": 50, "title": "Закрыть документацию", "priority": "low", "due": null, "done": false}
+{"id": 51, "title": "Оплатить заявку на отпуск", "priority": "high", "due": "2026-12-05", "done": true}
+{"id": 52, "title": "Прочитать билеты на поезд", "priority": "high", "due": "2026-11-22", "done": false}
+{"id": 53, "title": "Починить доклад для лекции", "priority": "low", "due": "2026-10-31", "done": false}
+{"id": 54, "title": "Отправить встречу с командой", "priority": "normal", "due": "2026-11-27", "done": false}
+{"id": 55, "title": "Закрыть обновления системы", "priority": "normal", "due": null, "done": false}
+{"id": 56, "title": "Распечатать анкету", "priority": "high", "due": "2026-10-31", "done": false}
+{"id": 57, "title": "Подготовить документацию", "priority": "high", "due": "2026-12-08", "done": true}
+{"id": 58, "title": "Распечатать билеты на поезд", "priority": "low", "due": "2026-11-05", "done": false}
+{"id": 59, "title": "Подготовить список покупок", "priority": "low", "due": "2026-11-05", "done": false}
+{"id": 60, "title": "Обновить тесты для приложения", "priority": "low", "due": "2026-11-17", "done": true}
+{"id": 61, "title": "Позвонить по поводу билеты на поезд", "priority": "high", "due": null, "done": false}
+{"id": 62, "title": "Прочитать план на неделю", "priority": "normal", "due": "2026-11-18", "done": false}
+{"id": 63, "title": "Починить план на неделю", "priority": "normal", "due": null, "done": false}
+{"id": 64, "title": "Закрыть резервную копию", "priority": "high", "due": "2026-11-16", "done": false}
+{"id": 65, "title": "Подготовить заявку на отпуск", "priority": "low", "due": "2026-11-14", "done": true}
+{"id": 66, "title": "Закрыть обновления системы", "priority": "high", "due": "2026-11-28", "done": false}
+{"id": 67, "title": "Закрыть список покупок", "priority": "low", "due": "2026-12-10", "done": false}
+{"id": 68, "title": "Протестировать план на неделю", "priority": "high", "due": null, "done": false}
+{"id": 69, "title": "Разобрать молоко и хлеб", "priority": "low", "due": null, "done": false}
+{"id": 70, "title": "Разобрать ревью кода", "priority": "high", "due": "2026-11-04", "done": true}
+{"id": 71, "title": "Подготовить анкету", "priority": "low", "due": "2026-11-08", "done": false}
+{"id": 72, "title": "Прочитать визит к врачу", "priority": "high", "due": "2026-12-06", "done": false}
+{"id": 73, "title": "Согласовать подарок коллеге", "priority": "low", "due": null, "done": true}
+{"id": 74, "title": "Протестировать резервную копию", "priority": "normal", "due": "2026-11-27", "done": true}
+{"id": 75, "title": "Закрыть встречу с командой", "priority": "low", "due": "2026-11-18", "done": true}
+{"id": 76, "title": "Подготовить визит к врачу", "priority": "low", "due": "2026-11-18", "done": false}
+{"id": 77, "title": "Купить план на неделю", "priority": "normal", "due": "2026-12-06", "done": true}
+{"id": 78, "title": "Распечатать подарок коллеге", "priority": "high", "due": "2026-11-24", "done": false}
+{"id": 79, "title": "Оплатить презентацию", "priority": "high", "due": "2026-12-04", "done": true}
+{"id": 80, "title": "Позвонить по поводу анкету", "priority": "low", "due": null, "done": true}
+{"id": 81, "title": "Записаться на подарок коллеге", "priority": "normal", "due": "2026-12-02", "done": true}
+{"id": 82, "title": "Спланировать молоко и хлеб", "priority": "high", "due": "2026-12-08", "done": false}
+{"id": 83, "title": "Отправить обновления системы", "priority": "low", "due": null, "done": false}
+{"id": 84, "title": "Купить план на неделю", "priority": "low", "due": "2026-11-09", "done": false}
+{"id": 85, "title": "Проверить посылку", "priority": "high", "due": "2026-11-24", "done": true}
+{"id": 86, "title": "Записаться на подарок коллеге", "priority": "normal", "due": null, "done": false}
+{"id": 87, "title": "Записаться на счёт за интернет", "priority": "low", "due": "2026-11-29", "done": false}
+{"id": 88, "title": "Подготовить презентацию", "priority": "normal", "due": null, "done": true}
+{"id": 89, "title": "Согласовать документацию", "priority": "high", "due": "2026-11-02", "done": false}
+{"id": 90, "title": "Позвонить по поводу документацию", "priority": "low", "due": null, "done": false}
+{"id": 91, "title": "Починить анкету", "priority": "normal", "due": null, "done": false}
+{"id": 92, "title": "Обновить резервную копию", "priority": "high", "due": "2026-11-20", "done": true}
+{"id": 93, "title": "Разобрать тесты для приложения", "priority": "normal", "due": null, "done": false}
+{"id": 94, "title": "Проверить план на неделю", "priority": "high", "due": "2026-11-04", "done": false}
+{"id": 95, "title": "Согласовать тесты для приложения", "priority": "high", "due": null, "done": false}
+{"id": 96, "title": "Записаться на визит к врачу", "priority": "high", "due": "2026-11-22", "done": true}
+{"id": 97, "title": "Забронировать презентацию", "priority": "normal", "due": null, "done": true}
+{"id": 98, "title": "Протестировать план на неделю", "priority": "low", "due": "2026-11-05", "done": false}
+{"id": 99, "title": "Позвонить по поводу план на неделю", "priority": "high", "due": "2026-11-20", "done": false}
+{"id": 100, "title": "Обновить анкету", "priority": "high", "due": "2026-11-21", "done": false}

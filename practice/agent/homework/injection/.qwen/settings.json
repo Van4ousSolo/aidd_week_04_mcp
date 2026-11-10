@@ -1,0 +1,51 @@
+{
+  "$version": 4,
+  "modelProviders": {
+    "openai": [
+      {
+        "id": "agentic/gc_v3",
+        "name": "agentic/gc_v3",
+        "baseUrl": "https://llmhub.sberai-rnd.ru/v1",
+        "envKey": "MODEL_API_KEY",
+        "generationConfig": {
+          "samplingParams": {
+            "temperature": 0.8,
+            "top_p": 0.95,
+            "max_tokens": 65536
+          }
+        }
+      }
+    ]
+  },
+  "security": {
+    "auth": {
+      "selectedType": "openai"
+    }
+  },
+  "mcpServers": {
+    "todo": {
+      "command": "python",
+      "args": [
+        "../mcp/server.py"
+      ],
+      "env": {
+        "TODO_API_URL": "http://127.0.0.1:5002",
+        "NO_PROXY": "127.0.0.1,localhost",
+        "no_proxy": "127.0.0.1,localhost"
+      }
+    }
+  },
+  "model": {
+    "name": "<model_name>",
+    "baseUrl": "<model_url>"
+  },
+  "context": {
+    "fileName": [
+      "QWEN.md"
+    ]
+  },
+  "memory": {
+    "enableManagedAutoMemory": false,
+    "enableManagedAutoDream": false
+  }
+}

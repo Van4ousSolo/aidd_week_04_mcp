@@ -6,6 +6,8 @@ import sys
 import tempfile
 import threading
 import unittest
+from datetime import date, timedelta
+from unittest.mock import patch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 APPS = os.path.join(HERE, "..", "..", "apps")
@@ -52,6 +54,97 @@ class ToolTest(unittest.TestCase):
                          ({"title": "a", "due": "завтра"}, "YYYY-MM-DD"), ({"title": "a" * 201}, "200")):
             with self.subTest(kw=kw), self.assertRaisesRegex(ValueError, text):
                 server.add_task(**kw)
+
+    def test_list_and_complete_tasks(self):
+        pending = server.add_task("список: невыполненная")
+        completed = server.add_task("список: выполненная")
+        result = server.complete_task(completed["id"])
+        self.assertTrue(result["done"])
+        self.assertTrue(server.complete_task(completed["id"])["done"])
+        all_ids = {task["id"] for task in server.list_tasks()}
+        done_ids = {task["id"] for task in server.list_tasks(True)}
+        pending_ids = {task["id"] for task in server.list_tasks(False)}
+        self.assertTrue({pending["id"], completed["id"]} <= all_ids)
+        self.assertIn(completed["id"], done_ids)
+        self.assertNotIn(pending["id"], done_ids)
+        self.assertIn(pending["id"], pending_ids)
+        self.assertNotIn(completed["id"], pending_ids)
+        with self.assertRaisesRegex(ValueError, "не найдена"):
+            server.complete_task(999999)
+
+    def test_list_filters_and_count(self):
+        today = date.today()
+        yesterday = (today - timedelta(days=1)).isoformat()
+        tomorrow = (today + timedelta(days=1)).isoformat()
+        prefix = "Уникальный фильтр"
+        old = server.add_task(prefix + " Ёж", priority="high", due=yesterday)
+        server.add_task(prefix + " сегодня", priority="high", due=today.isoformat())
+        server.add_task(prefix + " завтра", priority="low", due=tomorrow)
+        server.add_task(prefix + " без срока", priority="high")
+        finished = server.add_task(prefix + " готово", priority="high", due=yesterday)
+        server.complete_task(finished["id"])
+
+        results = server.list_tasks(query=prefix.lower(), overdue=True, priority="high")
+        self.assertEqual([t["id"] for t in results], [old["id"]])
+        self.assertEqual(set(results[0]), {"id", "title", "priority", "due", "done"})
+        self.assertEqual(server.list_tasks(query=prefix, overdue=True, count_only=True, limit=1), {"count": 1})
+        self.assertEqual(server.list_tasks(query=prefix, overdue=False, count_only=True), {"count": 4})
+        self.assertEqual(server.list_tasks(query="ёж")[0]["id"], old["id"])
+        dated = server.list_tasks(query=prefix, due_after=yesterday, due_before=today.isoformat())
+        self.assertEqual(len(dated), 3)
+        self.assertEqual(len(server.list_tasks(query=prefix, limit=2)), 2)
+        self.assertIn("created_at", server.list_tasks(query=prefix, compact=False)[0])
+        self.assertEqual(server.list_tasks(query=prefix, count_only=True, limit=1), {"count": 5})
+
+    def test_list_invalid_filters(self):
+        for kwargs in ({"priority": "urgent"}, {"limit": 0}, {"due_before": "20261001"},
+                       {"due_after": "2026-02-30"},
+                       {"due_after": "2026-11-11", "due_before": "2026-11-10"}):
+            with self.subTest(kwargs=kwargs), self.assertRaises(server.TodoError):
+                server.list_tasks(**kwargs)
+
+    def test_list_filters_through_mcp(self):
+        task = server.add_task("MCP filter test", priority="high", due="2000-01-01")
+
+        async def fn(session):
+            return await session.call_tool("list_tasks", {"overdue": True, "priority": "high",
+                                                          "query": "MCP filter test", "count_only": True})
+        result = self._session(fn)
+        self.assertFalse(g(result, "isError"))
+        self.assertIn('"count": 1', result.content[0].text)
+
+    def test_plan_day_selection_and_validation(self):
+        tasks = [
+            {"id": 1, "title": "без срока", "priority": "high", "due": None},
+            {"id": 2, "title": "позже", "priority": "normal", "due": "2099-01-01"},
+            {"id": 3, "title": "раньше", "priority": "low", "due": "2000-01-01"},
+            {"id": 4, "title": "срочная", "priority": "high", "due": "2000-01-01"},
+        ]
+        with patch.object(server, "_get", return_value=tasks) as get:
+            text = server.plan_day(max_tasks=2)
+        get.assert_called_once_with("/api/tasks?done=false")
+        self.assertIn("Всего невыполненных задач: 4; передано: 2", text)
+        self.assertLess(text.index("срочная"), text.index("раньше"))
+        self.assertNotIn("позже", text)
+        self.assertNotIn('"title": "без срока"', text)
+        self.assertIn("не изменяй задачи", text)
+        for value in (0, 51):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "от 1 до 50"):
+                server.plan_day(value)
+        with patch.object(server, "_get", return_value=[]):
+            self.assertIn("Задачи JSON: []", server.plan_day())
+
+    def test_plan_day_through_mcp(self):
+        task = server.add_task("prompt: просроченная", priority="high", due="0001-01-01")
+
+        async def fn(session):
+            prompts = await session.list_prompts()
+            result = await session.get_prompt("plan_day", {"max_tasks": "1"})
+            return prompts, result
+        prompts, result = self._session(fn)
+        self.assertIn("plan_day", [prompt.name for prompt in prompts.prompts])
+        self.assertIn(f'"id": {task["id"]}', result.messages[0].content.text)
+        self.assertIn("передано: 1", result.messages[0].content.text)
 
     def test_get_helper(self):
         server.add_task("для списка")
@@ -107,6 +200,36 @@ class ToolTest(unittest.TestCase):
                     await s.initialize()
                     return await fn(s)
         return asyncio.run(asyncio.wait_for(scenario(), 30))
+
+    def test_digest_order(self):
+        import json
+        tasks = [
+            {"id": 1, "due": None},
+            {"id": 2, "due": "2099-01-01"},
+            {"id": 3, "due": "2000-01-02"},
+            {"id": 4, "due": "2000-01-01"},
+        ]
+        with patch.object(server, "_get", return_value=tasks) as get:
+            result = json.loads(server.task_digest())
+        get.assert_called_once_with("/api/tasks?done=false")
+        self.assertEqual(result["count"], 4)
+        self.assertEqual([task["id"] for task in result["tasks"]], [4, 3, 2, 1])
+
+    def test_digest_via_mcp(self):
+        import json
+        pending = server.add_task("ресурс digest активная", due="2000-01-01")
+        done = server.add_task("ресурс digest выполненная")
+        server.complete_task(done["id"])
+
+        async def fn(session):
+            return await session.list_resources(), await session.read_resource("todo://digest")
+        resources, body = self._session(fn)
+        self.assertIn("todo://digest", [str(resource.uri) for resource in resources.resources])
+        result = json.loads(body.contents[0].text)
+        ids = {task["id"] for task in result["tasks"]}
+        self.assertIn(pending["id"], ids)
+        self.assertNotIn(done["id"], ids)
+        self.assertEqual(result["count"], len(result["tasks"]))
 
     def test_resource_task_by_id(self):
         import json

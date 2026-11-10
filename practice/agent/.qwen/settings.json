@@ -3,9 +3,9 @@
   "modelProviders": {
     "openai": [
       {
-        "id": "<model_name>",
-        "name": "<model_name>",
-        "baseUrl": "<model_url>",
+        "id": "agentic/gc_v3",
+        "name": "agentic/gc_v3",
+        "baseUrl": "https://llmhub.sberai-rnd.ru/v1",
         "envKey": "MODEL_API_KEY",
         "generationConfig": {
           "samplingParams": {
@@ -20,6 +20,32 @@
   "security": {
     "auth": {
       "selectedType": "openai"
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(run_shell_command|mcp__todo__.*)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$QWEN_PROJECT_DIR/.qwen/hooks/guard.py\"",
+            "name": "todo-guard",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "todo": {
+      "command": "python",
+      "args": ["../mcp/server.py"],
+      "env": {
+        "TODO_API_URL": "http://127.0.0.1:5001",
+        "NO_PROXY": "127.0.0.1,localhost",
+        "no_proxy": "127.0.0.1,localhost"
+      }
     }
   },
   "model": {
